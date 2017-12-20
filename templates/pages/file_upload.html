@@ -1,0 +1,62 @@
+{% extends 'index.html' %}
+
+{% block content %}
+    <!-- ============================================================== -->
+    <!-- Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <div class="row page-titles">
+        <div class="col-md-5 col-8 align-self-center">
+            <h3 class="text-themecolor m-b-0 m-t-0">Загрузите файл</h3>
+            <!--
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Table</li>
+            </ol>
+            -->
+        </div>
+        <!--
+                    <div class="col-md-7 col-4 align-self-center">
+                        <a href="{% url 'upload' %}" class="btn waves-effect waves-light btn-danger pull-right hidden-sm-down">Загрузить файл</a>
+                    </div>
+                    -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+
+    <div class="row">
+        <!-- column -->
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-block">
+                    <form class="form-horizontal form-material" action="{% url 'upload' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label class="col-md-12"><strong>Введите название файла</strong></label>
+                            <div class="col-md-12">
+                                <input type="text" placeholder="Назване файла для регистрации в системе"
+                                       class="form-control form-control-line" id="file_name" name="file_name">
+                                <p>{{ form.file_name.errors }}</p>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="load-file" class="col-md-12"><strong>Файл (до 1 Мб)</strong></label>
+                            <div class="col-md-12">
+                                <input type="file" class="form-control form-control-file" name="file_src"
+                                       id="file_src">
+                                <p>{{ form.file_src.errors }}</p>
+                            </div>
+                        </div>
+                        <p>{{ form.file_hash.errors }}</p>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <button class="btn btn-success">Загрузить файл</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

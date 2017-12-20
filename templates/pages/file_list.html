@@ -1,0 +1,68 @@
+{% extends 'index.html' %}
+
+{% block content %}
+                    <!-- ============================================================== -->
+                <!-- Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <div class="row page-titles">
+                    <div class="col-md-5 col-8 align-self-center">
+                        <h3 class="text-themecolor m-b-0 m-t-0">Список загруженных файлов</h3>
+                        <!--
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                            <li class="breadcrumb-item active">Table</li>
+                        </ol>
+                        -->
+                    </div>
+                    <div class="col-md-7 col-4 align-self-center">
+                        <a href="{% url 'upload' %}" class="btn waves-effect waves-light btn-danger pull-right hidden-sm-down">Загрузить файл</a>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                 <!-- ============================================================== -->
+                <!-- Start Page Content -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <!-- column -->
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-block">
+                                <!--<h4 class="card-title">Файлы, загруженные: </h4> -->
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Название файла</th>
+                                                <th>Хеш SHA1</th>
+                                                <th>Время загрузки</th>
+                                                <th>Время блока</th>
+                                                <th>Номер блока</th>
+                                                <th>Транзакция</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for f in files %}
+                                            <tr>
+                                                <td>{{ f.id }}</td>
+                                                <td>{{ f.file_name }}</td>
+                                                <td>{{ f.file_hash  }}</td>
+                                                <td>{{ f.file_time }}</td>
+                                                <td>{{ f.file_bch_time_block }}</td>
+                                                <td>{{ f.file_bch_block }}</td>
+                                                <td><a href="https://rinkeby.etherscan.io/tx/{{ f.file_bch_trans }}" target="_blank">Посмотреть транзакцию</a></td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End PAge Content -->
+                <!-- ============================================================== -->
+{% endblock content %}
