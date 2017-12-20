@@ -4,28 +4,29 @@ from web3.contract import ConciseContract
 
 
 def add_hash_to_bch():
-
-    contract_addr = '0x4E8acD9e735FAee1e93Fc4D04ad2494C3D4041b0' #0x98e05684d713B689e65eE235F2f5114130dcB9C6' #'0x3C449Ee4dfedB7E3E1dB8BE32C2e71083cCCE7Db'
+    contract_addr = '0x360F655Bb3171a4A28fe15787F5e3d92Cc537d70'
     hash_list = UploadFiles.objects.filter(file_bch_trans__isnull=True, file_hash__isnull=False).values('id')
-    abi = [{"constant": True, "inputs": [], "name": "getLinesCount",
-                     "outputs": [{"name": "", "type": "uint256", "value": "0"}], "payable": False,
-                     "stateMutability": "view", "type": "function"},
-                    {"constant": True, "inputs": [], "name": "blockInfo",
-                     "outputs": [{"name": "", "type": "uint256", "value": "1513705119"},
-                                 {"name": "", "type": "uint256", "value": "1442996"}], "payable": False,
-                     "stateMutability": "view", "type": "function"},
-                    {"constant": False, "inputs": [{"name": "s", "type": "string"}], "name": "addHash", "outputs": [],
-                     "payable": False, "stateMutability": "nonpayable", "type": "function"}]
+    abi = [{"constant": True, "inputs": [{"name": "", "type": "bytes32"}], "name": "doc_hash",
+            "outputs": [{"name": "", "type": "bool"}], "payable": False, "stateMutability": "view", "type": "function"},
+           {"constant": False, "inputs": [], "name": "kill", "outputs": [], "payable": False,
+            "stateMutability": "nonpayable", "type": "function"},
+           {"constant": False, "inputs": [{"name": "s", "type": "bytes32"}], "name": "addHash", "outputs": [],
+            "payable": False, "stateMutability": "nonpayable", "type": "function"},
+           {"constant": True, "inputs": [], "name": "owner", "outputs": [{"name": "", "type": "address"}],
+            "payable": False, "stateMutability": "view", "type": "function"},
+           {"constant": True, "inputs": [{"name": "s", "type": "bytes32"}], "name": "checkHash",
+            "outputs": [{"name": "", "type": "bool"}], "payable": False, "stateMutability": "view", "type": "function"}]
 
     params = {'from': web3.eth.accounts[0],
               'to': contract_addr,
               'gas': 1000000}
 
-    contract = web3.eth.contract(contract_name='FixTheDoc', abi=abi, address=contract_addr, ContractFactoryClass=ConciseContract)
+    contract = web3.eth.contract(contract_name='FixTheDoc', abi=abi, address=contract_addr,
+                                 ContractFactoryClass=ConciseContract)
 
     for hs in hash_list:
         obj = UploadFiles.objects.get(id=hs['id'])
-        file_bch_trans = contract.addHash(str(obj.file_hash), transact=params)
+        file_bch_trans = contract.addHash(Web3.toBytes(hexstr=hex(int(obj.file_hash, 16))), transact=params)
         obj.file_bch_trans = file_bch_trans
         obj.save()
 
