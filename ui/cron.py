@@ -5,7 +5,7 @@ from web3.contract import ConciseContract
 
 def add_hash_to_bch():
 
-    contract_addr = '0x98e05684d713B689e65eE235F2f5114130dcB9C6' #'0x3C449Ee4dfedB7E3E1dB8BE32C2e71083cCCE7Db'
+    contract_addr = '0x4E8acD9e735FAee1e93Fc4D04ad2494C3D4041b0' #0x98e05684d713B689e65eE235F2f5114130dcB9C6' #'0x3C449Ee4dfedB7E3E1dB8BE32C2e71083cCCE7Db'
     hash_list = UploadFiles.objects.filter(file_bch_trans__isnull=True, file_hash__isnull=False).values('id')
     abi = [{"constant": True, "inputs": [], "name": "getLinesCount",
                      "outputs": [{"name": "", "type": "uint256", "value": "0"}], "payable": False,
@@ -19,7 +19,7 @@ def add_hash_to_bch():
 
     params = {'from': web3.eth.accounts[0],
               'to': contract_addr,
-              'gas': 50000}
+              'gas': 1000000}
 
     contract = web3.eth.contract(contract_name='FixTheDoc', abi=abi, address=contract_addr, ContractFactoryClass=ConciseContract)
 

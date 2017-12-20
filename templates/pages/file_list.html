@@ -50,8 +50,13 @@
                                                 <td>{{ f.file_name }}</td>
                                                 <td>{{ f.file_hash  }}</td>
                                                 <td>{{ f.file_time }}</td>
+                                                {% if f.file_bch_time_block %}
                                                 <td>{{ f.file_bch_time_block }}</td>
                                                 <td>{{ f.file_bch_block }}</td>
+                                                {% else %}
+                                                    <td>Ожидается...</td>
+                                                    <td>Ожидается...</td>
+                                                {% endif %}
                                                 <td><a href="https://rinkeby.etherscan.io/tx/{{ f.file_bch_trans }}" target="_blank">Посмотреть транзакцию</a></td>
                                             </tr>
                                         {% endfor %}
