@@ -1,4 +1,4 @@
-from web3 import Web3, IPCProvider
+from web3 import Web3, IPCProvider, HTTPProvider
 from django.conf import settings
 from web3.contract import ConciseContract
 
@@ -62,9 +62,11 @@ if __name__ == '__main__':
     # TODO: Set it settings
     try:
         web3 = Web3(IPCProvider())
+        web3.personal.unlockAccount(web3.eth.accounts[0], settings.ETH_PWD)
     except:
-        web3 = Web3(Web3.IPCProvider("/root/.ethereum/rinkeby/geth.ipc"))
+        web3 = Web3(Web3.HTTPProvider("http://127.0.0.1:8545"))
+        web3.personal.unlockAccount(web3.eth.accounts[0], settings.ETH_PWD)
 
-    web3.personal.unlockAccount(web3.eth.accounts[0], settings.ETH_PWD)
+
     add_hash_to_bch()
     add_block_info()
