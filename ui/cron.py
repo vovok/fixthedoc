@@ -3,6 +3,39 @@ from django.conf import settings
 from web3.contract import ConciseContract
 
 
+def check_hash_from_bch(hash):
+    try:
+        web3 = Web3(IPCProvider())
+        web3.personal.unlockAccount(web3.eth.accounts[0], settings.ETH_PWD)
+    except:
+        web3 = Web3(Web3.HTTPProvider("http://127.0.0.1:8545"))
+        web3.personal.unlockAccount(web3.eth.accounts[0], settings.ETH_PWD)
+
+    contract_addr = '0x360F655Bb3171a4A28fe15787F5e3d92Cc537d70'
+    abi = [{"constant": True, "inputs": [{"name": "", "type": "bytes32"}], "name": "doc_hash",
+            "outputs": [{"name": "", "type": "bool"}], "payable": False, "stateMutability": "view", "type": "function"},
+           {"constant": False, "inputs": [], "name": "kill", "outputs": [], "payable": False,
+            "stateMutability": "nonpayable", "type": "function"},
+           {"constant": False, "inputs": [{"name": "s", "type": "bytes32"}], "name": "addHash", "outputs": [],
+            "payable": False, "stateMutability": "nonpayable", "type": "function"},
+           {"constant": True, "inputs": [], "name": "owner", "outputs": [{"name": "", "type": "address"}],
+            "payable": False, "stateMutability": "view", "type": "function"},
+           {"constant": True, "inputs": [{"name": "s", "type": "bytes32"}], "name": "checkHash",
+            "outputs": [{"name": "", "type": "bool"}], "payable": False, "stateMutability": "view", "type": "function"}]
+    params = {'from': web3.eth.accounts[0],
+              'to': contract_addr,
+              'gas': 1000000}
+
+    contract = web3.eth.contract(contract_name='FixTheDoc', abi=abi, address=contract_addr,
+                                 ContractFactoryClass=ConciseContract)
+
+    res = contract.checkHash(Web3.toBytes(hexstr=hex(int(hash, 16))))
+
+    return res
+
+
+
+
 def add_hash_to_bch(web3):
     from ui.models import UploadFiles
     contract_addr = '0x360F655Bb3171a4A28fe15787F5e3d92Cc537d70'
