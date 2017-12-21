@@ -34,3 +34,5 @@ class FormUploadFiles(ModelForm):
             cleaned_data['file_hash'] = hashlib.sha1(file).hexdigest()
             if UploadFiles.objects.filter(file_hash=cleaned_data['file_hash']):
                 self.add_error('file_hash', 'Файл с данным хешем был загружен ранее.')
+            if file_src.size > 1048576:
+                self.add_error('file_src', 'Файл слишком большой.')
