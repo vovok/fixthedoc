@@ -145,8 +145,7 @@ LOGGING = {
 }
 
 
-CRONJOBS = [('1 * * * *', 'ui.cron.add_hash_to_bch'),
-            ('2 * * * *', 'ui.cron.add_block_info')]
+CRONJOBS = [('1 * * * *', 'ui.cron.add_hash_to_bch')]
 
 for path in [BASE_DIR, HOME_DIR]:
     file = os.path.join(path, 'local_settings.py')
