@@ -47,8 +47,7 @@ def add_block_info():
             pass
 
 
-# Для ручного запуска
-if __name__ == '__main__':
+def cron_run():
     import os
     import sys
 
@@ -67,6 +66,11 @@ if __name__ == '__main__':
         web3 = Web3(Web3.HTTPProvider("http://127.0.0.1:8545"))
         web3.personal.unlockAccount(web3.eth.accounts[0], settings.ETH_PWD)
 
-
     add_hash_to_bch()
     add_block_info()
+
+
+# Для ручного запуска
+if __name__ == '__main__':
+    cron_run()
+
