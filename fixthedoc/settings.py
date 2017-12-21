@@ -145,7 +145,7 @@ LOGGING = {
 }
 
 
-CRONJOBS = [('1 * * * *', 'ui.cron.cron_run', '>> /tmp/scheduled_job.log')]
+CRONJOBS = [('*/1 * * * *', 'ui.cron.cron_run', '>> /tmp/scheduled_job.log')]
 
 for path in [BASE_DIR, HOME_DIR]:
     file = os.path.join(path, 'local_settings.py')
