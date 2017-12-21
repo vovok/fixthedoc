@@ -3,7 +3,8 @@ from django.conf import settings
 from web3.contract import ConciseContract
 
 
-def add_hash_to_bch():
+def add_hash_to_bch(web3):
+    from ui.models import UploadFiles
     contract_addr = '0x360F655Bb3171a4A28fe15787F5e3d92Cc537d70'
     hash_list = UploadFiles.objects.filter(file_bch_trans__isnull=True, file_hash__isnull=False).values('id')
     abi = [{"constant": True, "inputs": [{"name": "", "type": "bytes32"}], "name": "doc_hash",
@@ -31,7 +32,8 @@ def add_hash_to_bch():
         obj.save()
 
 
-def add_block_info():
+def add_block_info(web3):
+    from ui.models import UploadFiles
     from datetime import datetime
     check_list = UploadFiles.objects.filter(file_bch_block__isnull=True).values('id')
     for hs in check_list:
@@ -48,16 +50,6 @@ def add_block_info():
 
 
 def cron_run():
-    import os
-    import sys
-
-    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    sys.path.append(BASE_DIR)
-    sys.path.append(os.path.dirname(BASE_DIR))
-
-    from fixthedoc.wsgi import application
-    from ui.models import UploadFiles
-
     # TODO: Set it settings
     try:
         web3 = Web3(IPCProvider())
@@ -66,11 +58,19 @@ def cron_run():
         web3 = Web3(Web3.HTTPProvider("http://127.0.0.1:8545"))
         web3.personal.unlockAccount(web3.eth.accounts[0], settings.ETH_PWD)
 
-    add_hash_to_bch()
-    add_block_info()
+    add_hash_to_bch(web3)
+    add_block_info(web3)
 
 
 # Для ручного запуска
 if __name__ == '__main__':
+    import os
+    import sys
+
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    sys.path.append(BASE_DIR)
+    sys.path.append(os.path.dirname(BASE_DIR))
+
+    from fixthedoc.wsgi import application
     cron_run()
 
