@@ -1,3 +1,5 @@
+ALLOWED_HOSTS = []
+
 ETH_PWD = ''
 
 # Database
