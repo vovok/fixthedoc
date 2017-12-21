@@ -59,6 +59,7 @@ if __name__ == '__main__':
     from fixthedoc.wsgi import application
     from ui.models import UploadFiles
 
+    # TODO: Set it settings
     try:
         web3 = Web3(IPCProvider())
     except:
