@@ -57,7 +57,11 @@
                                                     <td>Ожидается...</td>
                                                     <td>Ожидается...</td>
                                                 {% endif %}
+                                            {% if f.file_bch_trans %}
                                                 <td><a href="https://rinkeby.etherscan.io/tx/{{ f.file_bch_trans }}" target="_blank">Посмотреть транзакцию</a></td>
+                                            {% else %}
+                                                <td>Ожидается...</td>
+                                            {% endif %}
                                             </tr>
                                         {% endfor %}
                                         </tbody>
