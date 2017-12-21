@@ -49,6 +49,13 @@ def add_block_info():
 
 # Для ручного запуска
 if __name__ == '__main__':
+    import os
+    import sys
+
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    sys.path.append(BASE_DIR)
+    sys.path.append(os.path.dirname(BASE_DIR))
+
     from fixthedoc.wsgi import application
     from ui.models import UploadFiles
 
