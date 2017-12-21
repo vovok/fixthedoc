@@ -63,7 +63,7 @@ if __name__ == '__main__':
     try:
         web3 = Web3(IPCProvider())
     except:
-        web3 = Web3(Web3.IPCProvider("/root/.etherium/rinkeby/geth.ipc"))
+        web3 = Web3(Web3.IPCProvider("/root/.ethereum/rinkeby/geth.ipc"))
 
     web3.personal.unlockAccount(web3.eth.accounts[0], settings.ETH_PWD)
     add_hash_to_bch()
