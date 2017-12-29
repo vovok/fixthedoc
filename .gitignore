@@ -1,5 +1,5 @@
 .idea/
 debug.log
-migrations/
+migrations/*
 */__pycache__
 local_settings.py

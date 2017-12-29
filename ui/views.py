@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView, CreateView
 from .models import *
+from .forms import *
+from django.utils import timezone
+from datetime import timedelta
 
 
 class IndexView(TemplateView):
@@ -8,8 +11,7 @@ class IndexView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data()
-        # TODO: сделать выборку за последнюю неделю
-        context['files'] = UploadFiles.objects.all()
+        context['files'] = UploadFiles.objects.filter(file_time__gte=timezone.now()-timedelta(days=8))
         return context
 
 
